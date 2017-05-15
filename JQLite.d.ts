@@ -51,7 +51,7 @@ interface IJQLite {
 	show(): any;
 	hide(): any;
 
-	
+
 	// 工具
 	each(cb:Function): IJQLite;
 	on(evt:string, selector?:string, callback?:Function): IJQLite;
@@ -61,7 +61,7 @@ interface IJQLite {
 	ready(cb:Function):any;
 	animate(props:any, duration?:number, easing?:string, complete?:Function): any;
 
-	
+
 
 	//扩展 MVVM
 	render(data: Object): any;
@@ -100,7 +100,7 @@ interface IJQLiteUtil{
 	copy(obj:Object): Object;
 	defObj(o:Object, prop:string, getter?:Function, setter?:Function): void;
 	defRec(object:Object, property:string, value:any):void;
-	copyArray(arr:Array<any>): Array<any>; 
+	copyArray(arr:Array<any>): Array<any>;
 	mergeArray(ta:Array<any>, na:Array<any>): Array<any>;
 	log(text:string): void;
 	warn(text:string): void;
@@ -115,4 +115,4 @@ declare module 'JQLite' {
 }
 
 
-var JQLite: JQLiteStatic;
+interface JQLite extends JQLiteStatic{}
