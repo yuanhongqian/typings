@@ -170,7 +170,7 @@ interface IElement {
     snapshot(jsonData: Object, callback: Function): void;// 地图截屏,图片格式png
 
     //---------官方封装组件------------
-    //button switch radio 
+    //button switch radio
     click(): void;//模拟点击
     //select
     getSelectedIndex(): void;
@@ -213,7 +213,7 @@ interface IElement {
 }
 
 
-interface DocumentStatic {
+interface Document {
     getElement(id: string): IElement;
     getElements(rule: string): Array<IElement>;
     getRootElement(): IElement;
@@ -242,6 +242,6 @@ declare module 'ListAdapter' {
 }
 
 
-var docs: DocumentStatic;
+var docs: Document;
 
 var listadapter: ListAdapter;
