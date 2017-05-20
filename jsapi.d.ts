@@ -532,7 +532,7 @@ interface IElement {
     snapshot(jsonData: Object, callback: Function): void;// 地图截屏,图片格式png
 
     //---------官方封装组件------------
-    //button switch radio 
+    //button switch radio
     click(): void;//模拟点击
     //select
     getSelectedIndex(): void;
@@ -575,7 +575,7 @@ interface IElement {
 }
 
 
-interface DocumentStatic {
+interface Document {
     getElement(id: string): IElement;
     getElements(rule: string): Array<IElement>;
     getRootElement(): IElement;
@@ -604,7 +604,7 @@ declare module 'ListAdapter' {
 }
 
 
-var docs: DocumentStatic;
+var docs: Document;
 
 var listadapter: ListAdapter;//Encryption.d.ts
 
@@ -739,25 +739,111 @@ var imageutil: ImageUtil;
 
 interface IJQLite {
 
-	// 基础功能
+	// 基础
+	isElement(): boolean;
+	elementType(): string;
+	is(status:string): boolean;
 
-	child(selectot?: string): IJQLite;
-	parent(selectot?: string): IJQLite;
-	attr(attrName: string, attrValue?: any): IJQLite;
-	css(styleName: string, styleValue?: any): IJQLite;
-	css(styleKV: object): IJQLite;
-	addClass(classStr: string): IJQLite;
-	removeClass(classStr: string): IJQLite;
+	// 选择器
+	add(el:IJQLite): IJQLite;
+	get(index:number): IJQLite;
+	childs(index?:number): IJQLite;
+	children(index?:number): IJQLite;
+	parent(): IJQLite;
+	find(selector:string): IJQLite;
+	first(): IJQLite;
+	last(): IJQLite;
+	before($el:IJQLite): IJQLite;
+	after($el:IJQLite): IJQLite;
+	next(selector:string): IJQLite;
+	prev(selector:string): IJQLite;
+	siblings(selector:string): IJQLite;
+	empty(): IJQLite;
+	remove(): IJQLite;
+	append(el: any): IJQLite;
+	replaceWith(el: any): IJQLite;
+	appendTo(el: any): IJQLite;
+	insertAfter(el: any): IJQLite;
+	insertBefore(el: any): IJQLite;
+	replaceTo(el: any): IJQLite;
+	clone(isDeep?:boolean): IJQLite;
+
+
+
+	// 操作
+	textContent(text?:string): any;
+	attrs(prop?:string, val?:any): any;
+	html(content?:string): any;
+	text(text?:string): any;
+	val(val?:any): any;
+	css(prop:any, val?:any): any;
+	attr(attrName?:string, attrVal?:any): any;
+	prop(attrName?:string, attrVal?:any): any;
+	removeAttr(prop:string): any;
+	hasAttr(prop:string): boolean;
+	hasClass(className:string): boolean;
+	addClass(className:string): IJQLite;
+	removeClass(className:string): IJQLite;
+	data(key:string, val?:any): any;
+	show(): any;
+	hide(): any;
+
+
+	// 工具
+	each(cb:Function): IJQLite;
+	on(evt:string, selector?:string, callback?:Function): IJQLite;
+	trigger(evt:string, params?:any): IJQLite;
+	off(evt:string, callback?:Function): IJQLite;
+	exe(funcName:any, params?:any): any;
+	ready(cb:Function):any;
+	animate(props:any, duration?:number, easing?:string, complete?:Function): any;
+
+
 
 	//扩展 MVVM
-
 	render(data: Object): any;
 }
 
 interface JQLiteStatic {
 	(selector: string, context?: any): IJQLite;
 
+	each(obj:Object, callback:Function, context?:Object): void;
+	type(obj:any): string;
+	isArray(obj:any): boolean;
+	isFunction(obj:any): boolean;
+	isEmptyObject(obj:any): boolean;
+	isPlainObject(obj:any): boolean;
+	extend(target:Object, source:Object, isDeep?:boolean): Object;
+
 	ajax(settings: any): void;
+
+
+	util:IJQLiteUtil;
+}
+
+interface IJQLiteUtil{
+	consoleLevel: string;
+	each(obj:any, callback?:Function, context?:any): void;
+	isString(obj:any): boolean;
+	isBoolean(obj:any): boolean;
+	isNumber(obj:any): boolean;
+	isNotNaNNumber(obj:any): boolean;
+	isObject(obj:any): boolean;
+	isEvent(obj:any): boolean;
+	clearObject(obj:Object): void;
+	trim(str:string): string;
+	removeSpace(str:string): string;
+	hasOwn(obj:Object, key:string): boolean;
+	copy(obj:Object): Object;
+	defObj(o:Object, prop:string, getter?:Function, setter?:Function): void;
+	defRec(object:Object, property:string, value:any):void;
+	copyArray(arr:Array<any>): Array<any>;
+	mergeArray(ta:Array<any>, na:Array<any>): Array<any>;
+	log(text:string): void;
+	warn(text:string): void;
+	error(text:string): void;
+	paramTransForm(str:string): Object;
+	sync(callback?:Function): void;
 }
 
 
@@ -765,15 +851,29 @@ declare module 'JQLite' {
 	export = JQLite;
 }
 
-//declare var JQLite: JQLiteStatic;
-var JQLite: JQLiteStatic;
 
-/*declare class mytest {
+interface JQLite extends JQLiteStatic{}
+//ListAdapter.d.ts
 
-	public selector: string;
+interface ListAdapter {
+   refresh(): void; //刷新数据并通知list容器更新
+   notifyItemRangeInserted(jsonData:Object): void ;//插入列表数据后通知list容器局部刷新
+   notifyItemRangeChanged(jsonData:Object): void ;//更新列表数据后通知list容器局部刷新
+   notifyItemRangeRemoved (jsonData:Object): void;// 移除列表数据后通知list容器局部刷新
+}
 
-	public todo():void;
-}*///Location.d.ts
+
+
+declare module 'ListAdapter' {
+    export = listadapter;
+}
+
+var listadapter: ListAdapter;
+
+
+
+
+//Location.d.ts
 
 interface Location {
     start(jsonData: Object, callFunction: Function): void;//启动系统单次定位
@@ -1057,7 +1157,7 @@ interface Window {
     getOrientation(): string;//  获取当前窗口屏幕横竖屏状态
     getScreenWidth(): number;// 获取当前窗口绘制区域宽度
     getScreenHeight(): number;// 获取当前窗口绘制区域高度
-    executeScript(scriptText: string): void;// 设置窗口状态栏模式
+    setStatusBarMode(mode: string): void;// 设置窗口状态栏模式
     hideSip(): void;//  隐藏系统输入法
 
     on(messageName: string, callback: Function): void;//组件注册事件的触发函数
