@@ -11,6 +11,7 @@ interface UI {
     selectVideo(jsonData: Object, callBackFun: Function): void;//选择设备中单个视频
     selectImage(jsonData: Object, callBackFun: Function): void;//选择设备中单张图片
     selectImages(jsonData: Object, callBackFun: Function): void;//选择设备中多张图片
+    openPicker(jsonData: Object, callFunction: Function): void;//启动群组联动选择
 }
 
 declare module 'UI' {

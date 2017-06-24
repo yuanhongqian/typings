@@ -9,6 +9,10 @@ interface App {
     fire(messageName: string, params: Array<any>): void;// 组件事件的触发函数
     off(messageName: string, callback: Function): void;// 组件移除事件的触发函数
     getOn(messageName: string): Array<Function>;//获取已绑定的事件的触发函数
+
+    getVersion(): string;//获取应用版本信息
+    getSdkVersion(): string;//获取SDK版本信息
+
 }
 
 

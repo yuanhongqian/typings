@@ -6,6 +6,9 @@ interface Native {
     apkInstalled(package: string): boolean;// 设备是否安装apk应用
     installApk(apkPath: string, callFunction: Function): void;//安装指定路径apk安装包
     uninstallApk(packageName: string, callFunction: Function): void;//卸载指定应用
+    shareText(jsonData: Object): void;//调用系统分享文本
+    shareImage(jsonData: Object): void;//调用系统分享图片
+
 }
 
 declare module 'Native' {

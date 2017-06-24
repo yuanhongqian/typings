@@ -1,4 +1,3 @@
-
 interface MapUtil {
     //坐标转换
     convertToBd09ll(srcJson: Object, callFunction: Function): void;//将gcj02/wgs84转换为bd09ll百度坐标系
@@ -13,6 +12,19 @@ interface MapUtil {
     searchNearBy(jsonData: Object, callFunction: Function): void;//百度地图圆形区域内搜索
     //其他
     getDistance(startJson: Object, endJson: Object): number;//计算两点间实际地理距离
+
+    // **调用百度地图导航**
+    openBaiduMapNavi(jsonData: Object): void;  //调起百度地图应用导航页面
+    openBaiduMapWalkNavi(jsonData: Object): void; //调起百度地图应用步行导航页面
+    openBaiduMapWalkNaviAR(jsonData: Object): void; //调起百度地图应用步行AR导航页面
+    openBaiduMapBikeNavi(jsonData: Object): void; //调起百度地图应用骑行导航页面
+    //**调用百度地图路线规划**  
+    openBaiduMapDrivingRoute(jsonData: Object): boolean;  //调起百度地图应用公交路线检索页面
+    openBaiduMapWalkingRoute(jsonData: Object): boolean;  //调起百度地图步行路线检索页面
+    //**调用百度地图POI搜索**  
+    openBaiduMapPoiNearbySearch(jsonData: Object): boolean  //调起百度地图poi周边检索页面
+    openBaiduMapPoiDetialsPage(jsonData: Object): boolean  //调起百度地图poi详情页面
+    openBaiduMapPanoShow(jsonData: Object): boolean   //调起百度地图poi全景展示页面
 }
 
 declare module 'MapUtil' {
