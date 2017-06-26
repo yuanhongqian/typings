@@ -13,6 +13,10 @@ interface Contact {
     addGroup(jsonData: Object, callBackFun: Function): void;//添加群组至通讯录
     deleteGroup(jsonData: Object, callBackFun: Function): void;//从通讯录中移除群组
     updateGroup(jsonData: Object, callBackFun: Function): void;//更新群组至通讯录
+
+    selectSystemContact(callbackFun: Function): void;//启动系统通讯录界面选择联系人信息，点击联系人列表返回
+    selectSystemContactProperty(callbackFun: Function): void;//启动系统通讯录界面选择联系人信息，点击联系人详情属性列表项返回
+
 }
 
 declare module 'Contact' {
