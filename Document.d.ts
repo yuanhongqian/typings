@@ -133,7 +133,7 @@ interface IElement {
 
     //聚合标注点
     setClusterConfig(jsonData: Object): void;//设置聚合点参数配置
-    addClusterMark(jsonData: Object, domObj: IElement): string;//添加单个聚合Mark标注点
+    addClusterMark(jsonData: Object, domObj: IElement): Object;//添加单个聚合Mark标注点
     removeClusterMark(jsonData: Object): boolean;//移除单个聚合Mark标注点 
     updateClusterMark(jsonData: Object, domObj: IElement): boolean;//更新单个聚合Mark标注点
     addClusterMarks(jarrayData: Array<Object>, arrayDomObj: Array<IElement>): Array<Object>;//  添加多个聚合Mark标注点 
@@ -143,7 +143,7 @@ interface IElement {
     hideClusterMarkPop(jsonData: Object): void;//  隐藏聚合mark点弹出的pop窗口
 
     //标注点
-    addMark(jsonData: Object, domObj: IElement): string;//添加单个Mark标注点
+    addMark(jsonData: Object, domObj: IElement): Object;//添加单个Mark标注点
     removeMark(jsonData: Object): boolean;//移除单个Mark标注点
     updateMark(jsonData: Object, domObj: IElement): boolean;//更新单个Mark标注点
     addMarks(arrayData: Array<Object>, arrayDomObj: Array<IElement>): Array<Object>;//添加多个Mark标注点
@@ -195,7 +195,11 @@ interface IElement {
     setMapCenter(jsonData: Object): boolean;// 设置地图中心点位置
     getMapCenter(): Object;// 获取地图中心点位置
     getBounds(): Object;//返回地图可视区域,以地理坐标表示
-    snapshot(jsonData: Object, callback: Function): void;// 地图截屏,图片格式png
+    snapshot(jsonData: Object, callback: Function): void;// 地图截屏,图片格式png 
+
+
+
+
 
 
 
@@ -307,7 +311,7 @@ interface IElement {
 }
 
 
-interface DocumentStatic {
+interface Document {
     getElement(id: string): IElement;
     getElements(rule: string): Array<IElement>;
     getRootElement(): IElement;
@@ -319,23 +323,12 @@ interface DocumentStatic {
 
 
 
-interface ListAdapter {
-    refresh(): void;
-    notifyItemRangeInserted(jsonData: Object): void;
-    notifyItemRangeChanged(jsonData: Object): void;
-    notifyItemRangeRemoved(jsonData: Object): void;
-}
+
 
 declare module 'Document' {
     export = docs;
 }
 
 
-declare module 'ListAdapter' {
-    export = listadapter;
-}
+var docs: Document;
 
-
-var docs: DocumentStatic;
-
-var listadapter: ListAdapter;

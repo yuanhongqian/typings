@@ -25,6 +25,17 @@ interface MapUtil {
     openBaiduMapPoiNearbySearch(jsonData: Object): boolean  //调起百度地图poi周边检索页面
     openBaiduMapPoiDetialsPage(jsonData: Object): boolean  //调起百度地图poi详情页面
     openBaiduMapPanoShow(jsonData: Object): boolean   //调起百度地图poi全景展示页面
+
+    //百度路径规划查询
+    searchTransitRoute(jsonData: Object, callback: Function): void; //获取公交路径规划
+    searchDrivingRoute(jsonData: Object, callback: Function): void;//获取驾车路径规划
+    searchWalkingRoute(jsonData: Object, callback: Function): void;//获取步行路径规划
+    searchBikingRoute(jsonData: Object, callback: Function): void;//获取骑行路径规划
+
+
+
+
+
 }
 
 declare module 'MapUtil' {

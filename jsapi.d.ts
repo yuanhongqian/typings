@@ -37,6 +37,10 @@ interface App {
     fire(messageName: string, params: Array<any>): void;// 组件事件的触发函数
     off(messageName: string, callback: Function): void;// 组件移除事件的触发函数
     getOn(messageName: string): Array<Function>;//获取已绑定的事件的触发函数
+
+    getVersion(): string;//获取应用版本信息
+    getSdkVersion(): string;//获取SDK版本信息
+
 }
 
 
@@ -224,6 +228,10 @@ interface Contact {
     addGroup(jsonData: Object, callBackFun: Function): void;//添加群组至通讯录
     deleteGroup(jsonData: Object, callBackFun: Function): void;//从通讯录中移除群组
     updateGroup(jsonData: Object, callBackFun: Function): void;//更新群组至通讯录
+
+    selectSystemContact(callbackFun: Function): void;//启动系统通讯录界面选择联系人信息，点击联系人列表返回
+    selectSystemContactProperty(callbackFun: Function): void;//启动系统通讯录界面选择联系人信息，点击联系人详情属性列表项返回
+
 }
 
 declare module 'Contact' {
@@ -449,7 +457,8 @@ interface IElement {
     reset(): void;
 
     //------------list方法-------------------
-    setAdapter(adapter: Adapter): void;
+    getAdapter(): ListAdapter;
+    setAdapter(adapter: ListAdapter): void;
     scrollTo(jsonData: Object): void;
     scrollToType(jsonData: Object): void;
     scrollToPosition(jsonData: Object): void;
@@ -491,13 +500,40 @@ interface IElement {
 
     //------------baidumap方法-------------------
 
+
+    //聚合标注点
+    setClusterConfig(jsonData: Object): void;//设置聚合点参数配置
+    addClusterMark(jsonData: Object, domObj: IElement): string;//添加单个聚合Mark标注点
+    removeClusterMark(jsonData: Object): boolean;//移除单个聚合Mark标注点 
+    updateClusterMark(jsonData: Object, domObj: IElement): boolean;//更新单个聚合Mark标注点
+    addClusterMarks(jarrayData: Array<Object>, arrayDomObj: Array<IElement>): Array<Object>;//  添加多个聚合Mark标注点 
+    removeClusterMarks(jarrayData: Array<Object>): boolean;//  移除多个聚合Mark标注点
+    clearClusterMarks(): boolean;// 移除地图上所有聚合Mark标注点]
+    showClusterMarkPop(jsonData: Object): void;//  弹出聚合mark点指定的pop窗口
+    hideClusterMarkPop(jsonData: Object): void;//  隐藏聚合mark点弹出的pop窗口
+
     //标注点
-    addMark(jsonData: Object): string;//添加单个Mark标注点
+    addMark(jsonData: Object, domObj: IElement): string;//添加单个Mark标注点
     removeMark(jsonData: Object): boolean;//移除单个Mark标注点
-    updateMark(jsonData: Object): boolean;//更新单个Mark标注点
-    addMarks(jarrayData: Array<Object>): Array<Object>;//添加多个Mark标注点
+    updateMark(jsonData: Object, domObj: IElement): boolean;//更新单个Mark标注点
+    addMarks(arrayData: Array<Object>, arrayDomObj: Array<IElement>): Array<Object>;//添加多个Mark标注点
     removeMarks(jarrayData: Array<Object>): boolean;//移除多个Mark标注点
     clearMarks(): boolean;//移除地图上所有Mark标注点
+    showMarkPop(jsonData: Object): void;//弹出mark点指定的pop窗口
+    hideMarkPop(jsonData: Object): void;//  隐藏mark点弹出的pop窗口
+
+    //地图坐标及经纬度转换
+    fromScreenLocation(jsonData: Object): Object;// 屏幕坐标转换成地理坐标
+
+    toScreenLocation(jsonData: Object): Object;//  地理坐标转换成屏幕坐标
+
+    //地图系统标识
+    setLogoPosition(position: string): void; //设置百度地图logo显示位置
+    setScaleControlPosition(position: object): void;//设置比例尺显示位置
+    setZoomControlsPosition(position: object): void;//  设置缩放按钮显示位置
+
+
+
     //定位
     setShowUserLocation(isShow: boolean): void;//地图是否显示定位图层
     setLocationData(jsonData: Object): void;//添加定位点
@@ -530,6 +566,72 @@ interface IElement {
     getMapCenter(): Object;// 获取地图中心点位置
     getBounds(): Object;//返回地图可视区域,以地理坐标表示
     snapshot(jsonData: Object, callback: Function): void;// 地图截屏,图片格式png
+
+
+
+
+    //---------------rlyimchat UI组件 rlyimgroupchat UI组件  rlyimnotify UI组件------------------
+
+    setConfig(jsonData: object): void;//设置单聊控件参数
+    clearMessage(); bool;//清空聊天信息
+
+    //---------------BI饼图----------------
+
+
+    setConfig(jsonData: object): void; //设置饼图参数
+    setData(jsonData: object): void;//设置饼图数据
+    setCenterText(jsonData: object): void;//设置饼图中间显示文字
+    invalidate(): void;//刷新饼图数据
+    setDrawHoleEnabled(show: boolean): void;//设置饼图中心圆区域是否显示
+    setDrawNameEnabled(show: boolean): void;//设置Entry名是否显示
+    setDrawValueEnabled(show: boolean): void;//设置Entry值是否显示
+    setUsePercentValues(show: boolean): void;//设置显示时是否使用百分比代替原始数据
+    setDrawCenterText(show: boolean): void;//设置中间文本是否显示
+    animateX(jsonData: object): void;//启动饼图X轴动画
+    animateY(jsonData: object): void;//启动饼图Y轴动画
+    animateXY(jsonData: object): void;//启动饼图XY轴动画
+    spin(jsonData: object): void;//执行饼图旋转动画
+    snapshot(jsonData: Object): boolean;//图表截屏,图片格式png
+
+
+    //---------------BI折线图---------------
+    addXLimitLine(data: object): string;//添加X轴限制线
+    removeXLimitLine(id: string): void;//移除指定X轴限制线
+    removeAllXLimitLine(): void;//移除所有X轴限制线
+    addLeftYLimitLine(data: object): string;//添加左侧Y轴限制线
+    removeLeftYLimitLine(id: string): void;//移除指定左侧Y轴限制线
+
+    removeAllLeftYLimitLine(): void;//	移除所有左侧Y轴限制线
+    addRightYLimitLine(data: object): string;//添加右侧Y轴限制线
+    removeRightYLimitLine(id: string): void;//移除指定右侧Y轴限制线
+    removeAllRightYLimitLine(): void;//移除所有右侧Y轴限制线
+    setDrawValueEnabled(show: boolean): void;//设置节点值是否显示
+    setDrawHighlightEnabled(show: boolean): void;//设置点击节点是否显示高亮标识线
+    setDrawCirclesEnabled(show: boolean): void;//是否绘制节点圆
+    setPinchZoomEnabled(show: boolean): void;//设置是否XY轴比例缩放
+    setLineDrawMode(lineDrawMode: string): void;//设置绘制折线连接模式
+
+    //-----------BI柱状图--------------
+    addXLimitLine(data: object): string;//添加X轴限制线
+    removeXLimitLine(id: string): void;//移除指定X轴限制线
+    removeAllXLimitLine(): void;//移除所有X轴限制线
+    addLeftYLimitLine(data: object): string;//添加左侧Y轴限制线
+    removeLeftYLimitLine(id: string): void;//移除指定左侧Y轴限制线
+    removeAllLeftYLimitLine(): void;//移除所有左侧Y轴限制线
+    addRightYLimitLine(data: object): string;//添加右侧Y轴限制线
+    removeRightYLimitLine(id: string): void;//移除指定右侧Y轴限制线
+    removeAllRightYLimitLine(): void;//移除所有右侧Y轴限制线
+    setDrawValueEnabled(show: boolean): void;//设置节点值是否显示
+    setDrawHighlightEnabled(show: boolean): void;//设置点击节点是否显示高亮
+    setPinchZoomEnabled(show: boolean): void;//设置是否XY轴比例缩放
+
+
+    //---------BI复合图------------
+
+
+
+
+
 
     //---------官方封装组件------------
     //button switch radio 
@@ -734,30 +836,151 @@ declare module 'ImageUtil' {
 var imageutil: ImageUtil;
 
 
+//JPush.d.ts
+
+interface JPush {
+    init(): void;//初始化并启动极光推送JPush
+    getRegistrationId(): string;//获取注册成功后JPush服务器分配的设备标识
+    stop(): void;//停止极光推送服务
+    resume(): void;// 恢复极光推送服务
+    isStopped(): boolean;//检查极光推送服务是否已经被停止
+    setDebugMode(isDebug: boolean): void;//设置调试模式开启/关闭
+    setAlias(alias: string, callBackFun: Function): void;//设置别名
+
+    setTags(tags: Array<string>, callBackFun: Function): void;//设置标签
+
+    getVersion(): string;//获取JPush SDK版本信息
+
+    //android
+    setLatestNotificationNumber(maxNumber: number): void; //限制状态栏保留的通知条数。默认为保留最近 5 条通知
+    clearAllNotifications(): void; //清除所有通知栏信息
+    clearNotificationById(messageId: string): void; //清除指定通知栏信息
+    setPushTime(info: object): void; //设置推送时间
+    setSilenceTime(info: object): void; //设置推送通知静默时间
+    //ios
+    setBadge(badge: number): boolean;//设置JPush服务器中存储的badge值
+    resetBadge(): void;//清空JPush服务器中存储的badge值
+
+
+
+}
+
+declare module 'JPush' {
+    export = jpush;
+}
+
+var jpush: JPush;
+
 //JQLite.d.ts
 
 
 interface IJQLite {
 
-	// 基础功能
+	// 基础
+	isElement(): boolean;
+	elementType(): string;
+	is(status:string): boolean;
 
-	child(selectot?: string): IJQLite;
-	parent(selectot?: string): IJQLite;
-	attr(attrName: string, attrValue?: any): IJQLite;
-	css(styleName: string, styleValue?: any): IJQLite;
-	css(styleKV: object): IJQLite;
-	addClass(classStr: string): IJQLite;
-	removeClass(classStr: string): IJQLite;
+	// 选择器
+	add(el:IJQLite): IJQLite;
+	get(index:number): IJQLite;
+	childs(index?:number): IJQLite;
+	children(index?:number): IJQLite;
+	parent(): IJQLite;
+	find(selector:string): IJQLite;
+	first(): IJQLite;
+	last(): IJQLite;
+	before($el:IJQLite): IJQLite;
+	after($el:IJQLite): IJQLite;
+	next(selector:string): IJQLite;
+	prev(selector:string): IJQLite;
+	siblings(selector:string): IJQLite;
+	empty(): IJQLite;
+	remove(): IJQLite;
+	append(el: any): IJQLite;
+	replaceWith(el: any): IJQLite;
+	appendTo(el: any): IJQLite;
+	insertAfter(el: any): IJQLite;
+	insertBefore(el: any): IJQLite;
+	replaceTo(el: any): IJQLite;
+	clone(isDeep?:boolean): IJQLite;
+
+
+
+	// 操作
+	textContent(text?:string): any;
+	attrs(prop?:string, val?:any): any;
+	html(content?:string): any;
+	text(text?:string): any;
+	val(val?:any): any;
+	css(prop:any, val?:any): any;
+	attr(attrName?:string, attrVal?:any): any;
+	prop(attrName?:string, attrVal?:any): any;
+	removeAttr(prop:string): any;
+	hasAttr(prop:string): boolean;
+	hasClass(className:string): boolean;
+	addClass(className:string): IJQLite;
+	removeClass(className:string): IJQLite;
+	data(key:string, val?:any): any;
+	show(): any;
+	hide(): any;
+
+
+	// 工具
+	each(cb:Function): IJQLite;
+	on(evt:string, selector?:string, callback?:Function): IJQLite;
+	trigger(evt:string, params?:any): IJQLite;
+	off(evt:string, callback?:Function): IJQLite;
+	exe(funcName:any, params?:any): any;
+	ready(cb:Function):any;
+	animate(props:any, duration?:number, easing?:string, complete?:Function): any;
+
+
 
 	//扩展 MVVM
-
 	render(data: Object): any;
 }
 
 interface JQLiteStatic {
 	(selector: string, context?: any): IJQLite;
 
+	each(obj:Object, callback:Function, context?:Object): void;
+	type(obj:any): string;
+	isArray(obj:any): boolean;
+	isFunction(obj:any): boolean;
+	isEmptyObject(obj:any): boolean;
+	isPlainObject(obj:any): boolean;
+	extend(target:Object, source:Object, isDeep?:boolean): Object;
+
 	ajax(settings: any): void;
+
+
+	util:IJQLiteUtil;
+}
+
+interface IJQLiteUtil{
+	consoleLevel: string;
+	each(obj:any, callback?:Function, context?:any): void;
+	isString(obj:any): boolean;
+	isBoolean(obj:any): boolean;
+	isNumber(obj:any): boolean;
+	isNotNaNNumber(obj:any): boolean;
+	isObject(obj:any): boolean;
+	isEvent(obj:any): boolean;
+	clearObject(obj:Object): void;
+	trim(str:string): string;
+	removeSpace(str:string): string;
+	hasOwn(obj:Object, key:string): boolean;
+	copy(obj:Object): Object;
+	defObj(o:Object, prop:string, getter?:Function, setter?:Function): void;
+	defRec(object:Object, property:string, value:any):void;
+	copyArray(arr:Array<any>): Array<any>;
+	mergeArray(ta:Array<any>, na:Array<any>): Array<any>;
+	log(text:string): void;
+	warn(text:string): void;
+	error(text:string): void;
+	paramTransForm(str:string): Object;
+	sync(callback?:Function): void;
 }
 
 
@@ -765,15 +988,29 @@ declare module 'JQLite' {
 	export = JQLite;
 }
 
-//declare var JQLite: JQLiteStatic;
-var JQLite: JQLiteStatic;
 
-/*declare class mytest {
+interface JQLite extends JQLiteStatic{}
+//ListAdapter.d.ts
 
-	public selector: string;
+interface ListAdapter {
+   refresh(): void; //刷新数据并通知list容器更新
+   notifyItemRangeInserted(jsonData:Object): void ;//插入列表数据后通知list容器局部刷新
+   notifyItemRangeChanged(jsonData:Object): void ;//更新列表数据后通知list容器局部刷新
+   notifyItemRangeRemoved (jsonData:Object): void;// 移除列表数据后通知list容器局部刷新
+}
 
-	public todo():void;
-}*///Location.d.ts
+
+
+declare module 'ListAdapter' {
+    export = listadapter;
+}
+
+var listadapter: ListAdapter;
+
+
+
+
+//Location.d.ts
 
 interface Location {
     start(jsonData: Object, callFunction: Function): void;//启动系统单次定位
@@ -787,7 +1024,6 @@ var location: Location;
 
 
 //MapUtil.d.ts
-
 interface MapUtil {
     //坐标转换
     convertToBd09ll(srcJson: Object, callFunction: Function): void;//将gcj02/wgs84转换为bd09ll百度坐标系
@@ -802,6 +1038,19 @@ interface MapUtil {
     searchNearBy(jsonData: Object, callFunction: Function): void;//百度地图圆形区域内搜索
     //其他
     getDistance(startJson: Object, endJson: Object): number;//计算两点间实际地理距离
+
+    // **调用百度地图导航**
+    openBaiduMapNavi(jsonData: Object): void;  //调起百度地图应用导航页面
+    openBaiduMapWalkNavi(jsonData: Object): void; //调起百度地图应用步行导航页面
+    openBaiduMapWalkNaviAR(jsonData: Object): void; //调起百度地图应用步行AR导航页面
+    openBaiduMapBikeNavi(jsonData: Object): void; //调起百度地图应用骑行导航页面
+    //**调用百度地图路线规划**  
+    openBaiduMapDrivingRoute(jsonData: Object): boolean;  //调起百度地图应用公交路线检索页面
+    openBaiduMapWalkingRoute(jsonData: Object): boolean;  //调起百度地图步行路线检索页面
+    //**调用百度地图POI搜索**  
+    openBaiduMapPoiNearbySearch(jsonData: Object): boolean  //调起百度地图poi周边检索页面
+    openBaiduMapPoiDetialsPage(jsonData: Object): boolean  //调起百度地图poi详情页面
+    openBaiduMapPanoShow(jsonData: Object): boolean   //调起百度地图poi全景展示页面
 }
 
 declare module 'MapUtil' {
@@ -836,6 +1085,9 @@ interface Native {
     apkInstalled(package: string): boolean;// 设备是否安装apk应用
     installApk(apkPath: string, callFunction: Function): void;//安装指定路径apk安装包
     uninstallApk(packageName: string, callFunction: Function): void;//卸载指定应用
+    shareText(jsonData: Object): void;//调用系统分享文本
+    shareImage(jsonData: Object): void;//调用系统分享图片
+
 }
 
 declare module 'Native' {
@@ -862,6 +1114,39 @@ declare module 'NetInfo' {
 }
 
 var netInfo: NetInfo;
+
+//Pattern.d.ts
+
+interface Pattern {
+    enablePattern(): void;//设置启动手势密码锁
+    disablePattern(): void;//设置关闭手势密码锁
+    isPattern(): boolean;//是否开启手势密码锁
+    isSetPatternPassword(): boolean;// 是否已设置成功手势密码
+    setPatternTimeout(time: number): void;//设置手势密码锁生效时间，默认5分钟
+    getPatternTimeout(): number;//获取手势密码锁生效时间
+    setPatternForgetUrl(url: string): void;//设置忘记密码跳转url
+    setPatternStyle(jsonData: object): void;//设置手势锁屏界面/设置界面样式
+    getPatternStyle(): object;//返回设置的手势锁屏界面/设置界面样式
+    openSetPattern(resultCallback: Function): void;//启动设置手势密码界面
+    openPattern(successCallback: Function): void;//打开手势锁屏界面
+    getPatternMinLength(): number;//获取最短设置密码长度,默认最短4位
+    setPatternMinLength(num: number): boolean;//设置最短设置密码长度，若不设置则默认4位
+
+    getPatternCheckNumber(): number;//获取重复输入校验次数,默认5次
+    setPatternCheckNumber(num: number): boolean;//设置重复输入校验次数，若不设置则默认5次
+    getPatternPassword(): string;//获取当前应用设置的手势密码
+    setPatternPassword(password: string): boolean;//设置当前应用插件设置的手势密码
+    setPatternLogo(logoPath: string): void;//设置九宫手势密码锁屏界面logo图
+    setPatternPrompt(prompt: string): void;//设置九宫手势密码锁屏界面提示语
+
+
+}
+
+declare module 'Pattern' {
+    export = pattern;
+}
+
+var pattern: Pattern;
 
 //Phone.d.ts
 
@@ -916,6 +1201,51 @@ declare module 'Qq' {
 var qq: Qq;
 
 
+//RlyIm.d..ts
+
+interface RlyIm {
+    login(loginDataJson: Object, onLoginFunction: Function): void;//启动容联云IM初始化并进行用户登录，处理结果进入回调中返回
+    refreshImData(rereshFunction: Function): void;//刷新Im用户信息数据
+    logout(): void;//注销当前已登录IM用户
+    setSettingInfo(settingInfoJson: Object): void;//设置容联云IM 服务器设置信息
+    createGroup(dataJson: Object, callFunction: Function): void;//创建群组
+    getGroupMembes(dataJson: Object, callFunction: Function): void;//获取群组内所有成员信息
+    searchGroupById(dataJson: Object, callFunction: Function): void;//根据群组Id搜索群组
+    searchGroupByName(dataJson: Object, callFunction: Function): void;//根据群组名称搜索群组
+    getOwnGroup(callFunction: Function): void;//获取用户所属群组
+    quitGroup(dataJson: Object, callFunction: Function): void;//退出指定群组
+    joinGroup(dataJson: Object, callFunction: Function): void;//加入指定群组
+    deleteGroupMember(dataJson: Object, callFunction: Function): void;//群主踢人
+    forbidGroupMember(dataJson: Object, callFunction: Function): void;//群组禁言
+    allowGroupMember(dataJson: Object, callFunction: Function): void;//群组关闭禁言
+    inviteGroupMember(dataJson: Object, callFunction: Function): void;//邀请成员加入
+    modifyGroup(dataJson: Object, callFunction: Function): void;//修改群组信息
+    deleteGroup(dataJson: Object, callFunction: Function): void;//解散群组
+    setGroupRule(dataJson: Object, callFunction: Function): void;//设置群组规则
+    setPersonInfo(dataJson: Object, callFunction: Function): void;//设置登录用户个人信息，包括昵称、生日、性别等
+    getPersonInfo(callFunction: Function): void;//获取登录用户个人信息，包括昵称、生日、性别等
+    getSettingInfo(): Object;//获取容联云IM 服务器设置信息
+    getGroupInfo(dataJson: Object, callFunction: Function): void;//获取群组信息
+    getGroupMember(dataJson: Object, callFunction: Function): void;//获取群组指定成员
+    getGroupMembers(dataJson: Object, callFunction: Function): void;//获取群组内所有成员信息
+    getUnreadMessageNumber(): Object;//获取未读消息条数
+    sendText(dataJson: Object, callFunction: Function): void;//单聊发送文本
+    sendImage(dataJson: Object, callFunction: Function): void;//单聊发送图片
+    sendGroupText(dataJson: Object, callFunction: Function): void;//群聊发送文本
+    sendGroupImage(dataJson: Object, callFunction: Function): void;//群聊发送图片
+
+
+
+
+
+}
+
+declare module 'RlyIm' {
+    export = rlyim;
+}
+
+var rlyim: RlyIm;
+
 //SangforVpn.d.ts
 
 interface SangforVpn {
@@ -933,6 +1263,19 @@ declare module 'SangforVpn' {
 
 var sangforvpn: SangforVpn;
 
+
+//Share.d.ts
+
+interface Share {
+    oneKeyShare(dataJson: Object, callFunction: Function): void;//一键分享，目前支持Qq好友，Qq空间，微信好友，微信朋友圈，新浪微博
+
+}
+
+declare module 'Share' {
+    export = share;
+}
+
+var share: Share;
 
 //Sms.d.ts
 
@@ -978,6 +1321,7 @@ interface UI {
     selectVideo(jsonData: Object, callBackFun: Function): void;//选择设备中单个视频
     selectImage(jsonData: Object, callBackFun: Function): void;//选择设备中单张图片
     selectImages(jsonData: Object, callBackFun: Function): void;//选择设备中多张图片
+    openPicker(jsonData: Object, callFunction: Function): void;//启动群组联动选择
 }
 
 declare module 'UI' {
@@ -1057,7 +1401,7 @@ interface Window {
     getOrientation(): string;//  获取当前窗口屏幕横竖屏状态
     getScreenWidth(): number;// 获取当前窗口绘制区域宽度
     getScreenHeight(): number;// 获取当前窗口绘制区域高度
-    executeScript(scriptText: string): void;// 设置窗口状态栏模式
+    setStatusBarMode(mode: string): void;// 设置窗口状态栏模式
     hideSip(): void;//  隐藏系统输入法
 
     on(messageName: string, callback: Function): void;//组件注册事件的触发函数
