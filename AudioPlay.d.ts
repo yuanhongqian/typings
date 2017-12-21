@@ -1,6 +1,6 @@
 
 interface AudioPlay {
-    iinit(jsonData: Object): void;//初始化当前播放音频信息
+    init(jsonData: Object): void;//初始化当前播放音频信息
     start(): void;//播放音频
     pause(): void;// 暂停播放音频
     stop(): void;// 停止播放音频

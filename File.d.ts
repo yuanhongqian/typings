@@ -25,6 +25,9 @@ interface File {
     zip(jsonData: Object, callFunction: Function): void;//压缩文件/文件夹至指定目录
     unZip(jsonData: Object, callFunction: Function): void;// 解压文件至指定路径
     getAbsolutePath(path: string): string;//获取res:开头的本地url地址对应的绝对路径
+    encodeBySprite(jsonData: Object, callFunction: Function): void; //对文件进行Sprite提供的加密
+    decodeBySprite(jsonData: Object, callFunction: Function): void; //对文件进行Sprite提供的解密
+
 }
 
 declare module 'File' {

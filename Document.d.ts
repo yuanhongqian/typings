@@ -104,6 +104,11 @@ interface IElement {
     refreshFooter(): void;
     setCaptureTouchEvent(caputueTouchEvent: boolean): void;
     getCaptureTouchEvent(): boolean;
+    collapseSection(jsonData: Object): void;
+    expandSection(jsonData: Object): void;
+    scrollHeaderToType(jsonData: Object): void;
+    scrollFooterToType(jsonData: Object): void;
+
 
     //------------slider方法-------------------
     refresh(index?: number): void;

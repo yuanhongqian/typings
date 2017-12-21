@@ -13,6 +13,9 @@ interface App {
     getVersion(): string;//获取应用版本信息
     getSdkVersion(): string;//获取SDK版本信息
 
+    getPackageName(): string  //获取Android当前原生应用包名 
+    getBundleId(): string // 获取iOS当前原生应用bundleId 参数
+
 }
 
 

@@ -8,6 +8,7 @@ interface Native {
     uninstallApk(packageName: string, callFunction: Function): void;//卸载指定应用
     shareText(jsonData: Object): void;//调用系统分享文本
     shareImage(jsonData: Object): void;//调用系统分享图片
+    openSystemSetting(jsonData: Object): void;//打开系统设置相关界面，如：蓝牙设置、定位设置、WiFi设置等
 
 }
 
